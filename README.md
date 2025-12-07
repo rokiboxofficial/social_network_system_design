@@ -1,7 +1,7 @@
 # Travelers - System Design
 
 Homework for https://balun.courses/courses/system_design.
-Travelers is a social network that allows travelers to share their experience and be insipred by experience of others
+Travelers is a social network that allows users to share their experiences and be inspired by those of others.
 
 ## Functional requirements:
 - Publish travel reports that include photos, a description, and a location
@@ -18,6 +18,7 @@ Travelers is a social network that allows travelers to share their experience an
 - The system must be easy to use on both mobile and web
 - Targeting users in the CIS region
 - Exhibits seasonal traffic patterns (e.g., vacations)
+- During peak seasons, average user activity increases by 1.5
 - Average user:
   - Views 100 posts daily
   - Views 10 comments per 5 posts daily
@@ -33,7 +34,7 @@ Travelers is a social network that allows travelers to share their experience an
 - Maximum photo size: 8 MB
 - Performance:
   - A post, like, or comment should be visible to other users within 10 seconds
-  - Retrieving a page of posts should take less than 1 second
+  - Retrieving a page of posts or comments should take less than 1 second
 
 ## Basic structure sizes
 
@@ -67,6 +68,7 @@ Photo (500 KB):
 
 ## Basic calculations:
 Details such as the difference between the size of the write or read structures, as well as individual responses in the form of the created entity ID, are not taken into account. This is an overview.
+There are calculations for average day. Multiply by 1.5 to get RPS or traffic during peak season.
 
 Posts feed:
 
