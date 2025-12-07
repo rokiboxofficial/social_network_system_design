@@ -65,7 +65,7 @@ Photo (500 KB):
     id: 16
     content: 500KB
 
-## Basic calculations
+## Basic calculations:
 Details such as the difference between the size of the write or read structures, as well as individual responses in the form of the created entity ID, are not taken into account. This is an overview.
 
 Posts feed:
@@ -106,3 +106,6 @@ Popular places search:
 
     read RPS: (10,000,000 * (20/30)) / 86,400 ≈ 77
     read traffic: 77 * 82 ≈ 6.3 KB/s
+
+### Basic calculations summary:
+Media content drives extremely high read traffic, and the system overall is read-heavy, with reads far exceeding writes.
