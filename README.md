@@ -111,3 +111,53 @@ Popular places search:
 
 ### Basic calculations summary:
 Media content drives extremely high read traffic, and the system overall is read-heavy, with reads far exceeding writes.
+
+## Disks calculations:
+Posts:
+
+    Capacity_for_year = 2.6 KB/s * 86,400 * 365 ≈ 82 GB
+    Disks_for_capacity = 82 GB / 2 TB ≈ 0.041
+    Disks_for_throughput = (2.6 KB/s + 3.7 MB/s) / 100 MB/s ≈ 0.04
+    Disks_for_iops = (579/s + 8/s) / 100 ≈ 5.87
+    Disks (2 TB HDD) = max(1, 1, 6) ≈ 6
+
+Comments:
+
+    Capacity_for_year = 147 KB/s * 86,400 * 365 ≈ 4.6 TB
+    Disks_for_capacity = 4.6 TB / 8 TB ≈ 0.57
+    Disks_for_throughput = (147 KB/s + 12 MB/s) / 500 MB/s ≈ 0.02
+    Disks_for_iops = (579/s + 2,314/s) / 1000 ≈ 2.9
+    Disks (8 TB SSD SATA) = max(1, 1, 3) = 3
+
+Likes:
+
+    Capacity_for_year = 10,417/s * 40 B (size of row in db) * 86,400 * 365 ≈ 13.1 TB
+    Disks_for_capacity = 13.1 TB / 8 TB ≈ 1.6
+    Disks_for_throughput = (10,417/s * 40 B) / 500 MB/s ≈ 0.01
+    Disks_for_iops = 10,417/s / 1000 ≈ 10.4
+    Disks (8 TB SSD SATA) = max(2, 1, 11) = 11
+
+Subscribers:
+
+    Capacity_for_year = 58/s * 40 B (size of row in db) * 86,400 * 365 ≈ 73 GB
+    Disks_for_capacity = 73 GB / 2 TB ≈ 0.04
+    Disks_for_throughput = (58/s * 40 B) / 100 MB/s ≈ 0.01
+    Disks_for_iops = 58/s / 100 ≈ 0.58
+    Disks (2 TB HDD) = max(1, 1, 1) ≈ 1
+
+Photos:
+
+    Capacity_for_external_storage = 12.5 MB/s * 86,400 * 365 ≈ 394 TB (cloud storage)
+    Db_capacity_for_year = 82 B (size of row in db) * 25/s * 86,400 * 365 ≈ 64.6 GB
+    Disks_for_capacity = 64.6 GB / 8 TB ≈ 0.01
+    Disks_for_throughput = (82 B * (25/s + 23,148/s)) / 500 MB/s ≈ 0.01
+    Disks_for_iops = (25/s + 23,148/s) / 1000 ≈ 23.1
+    Disks (8 TB SSD SATA) = max(1, 1, 24) ≈ 24
+
+Locations:
+
+    Capacity = 58,500,000 (count of households in Russia) * 52 B (size of row in db) = 3 GB
+    Disks_for_capacity = 3 GB / 2 TB ≈ 0.01
+    Disks_for_throughput = 6.3 KB/s / 100 MB/s ≈ 0.01
+    Disks_for_iops = 77/s / 100 ≈ 0.77
+    Disks (2 TB HDD) = max(1, 1, 1) ≈ 1
