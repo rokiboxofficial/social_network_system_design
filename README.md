@@ -119,7 +119,7 @@ Posts:
     Disks_for_capacity = 82 GB / 2 TB ≈ 0.041
     Disks_for_throughput = (2.6 KB/s + 3.7 MB/s) / 100 MB/s ≈ 0.04
     Disks_for_iops = (579/s + 8/s) / 100 ≈ 5.87
-    Disks (HDD) = max(1, 1, 6) ≈ 6
+    Disks (2 TB HDD) = max(1, 1, 6) ≈ 6
 
 Comments:
 
@@ -127,7 +127,7 @@ Comments:
     Disks_for_capacity = 4.6 TB / 8 TB ≈ 0.57
     Disks_for_throughput = (147 KB/s + 12 MB/s) / 500 MB/s ≈ 0.02
     Disks_for_iops = (579/s + 2,314/s) / 1000 ≈ 2.9
-    Disks (SSD SATA) = max(1, 1, 3) = 3
+    Disks (8 TB SSD SATA) = max(1, 1, 3) = 3
 
 Likes:
 
@@ -135,7 +135,7 @@ Likes:
     Disks_for_capacity = 13.1 TB / 8 TB ≈ 1.6
     Disks_for_throughput = (10,417/s * 40 B) / 500 MB/s ≈ 0.01
     Disks_for_iops = 10,417/s / 1000 ≈ 10.4
-    Disks (SSD SATA) = max(2, 1, 11) = 11
+    Disks (8 TB SSD SATA) = max(2, 1, 11) = 11
 
 Subscribers:
 
@@ -143,7 +143,7 @@ Subscribers:
     Disks_for_capacity = 73 GB / 2 TB ≈ 0.04
     Disks_for_throughput = (58/s * 40 B) / 100 MB/s ≈ 0.01
     Disks_for_iops = 58/s / 100 ≈ 0.58
-    Disks (HDD) = max(1, 1, 1) ≈ 1
+    Disks (2 TB HDD) = max(1, 1, 1) ≈ 1
 
 Photos:
 
@@ -152,7 +152,7 @@ Photos:
     Disks_for_capacity = 64.6 GB / 8 TB ≈ 0.01
     Disks_for_throughput = (82 B * (25/s + 23,148/s)) / 500 MB/s ≈ 0.01
     Disks_for_iops = (25/s + 23,148/s) / 1000 ≈ 23.1
-    Disks (SSD SATA) = max(1, 1, 24) ≈ 24
+    Disks (8 TB SSD SATA) = max(1, 1, 24) ≈ 24
 
 Locations:
 
@@ -160,4 +160,4 @@ Locations:
     Disks_for_capacity = 3 GB / 2 TB ≈ 0.01
     Disks_for_throughput = 6.3 KB/s / 100 MB/s ≈ 0.01
     Disks_for_iops = 77/s / 100 ≈ 0.77
-    Disks (HDD) = max(1, 1, 1) ≈ 1
+    Disks (2 TB HDD) = max(1, 1, 1) ≈ 1
