@@ -1,0 +1,648 @@
+openapi: 3.1.0
+info:
+  title: Swagger Travelers - OpenAPI 3.1
+  version: 1.0.12
+servers:
+  - url: https://api.example.com/
+paths:
+  /v1/photos:
+    post:
+      tags:
+        - Photos
+      summary: Create a photo upload link
+      operationId: createPhotoUploadLink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contentType:
+                  type: string
+                  examples: ["image/jpeg"]
+              required: 
+                - contentType
+      responses:
+        '201':
+          description: The upload URL has been created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadUrl:
+                    type: string
+                    examples: ["https://s3.amazonaws.com/post-photos/some-photo?X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4751b4d9787314fd6da4d55"]
+                  photoId:
+                    type: string
+                    format: uuid
+                required:
+                  - uploadUrl
+                  - photoId
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/posts/{postId}/likes:
+    post:
+      tags:
+        - Likes
+      summary: Like post
+      operationId: likePost
+      parameters:
+        - $ref: '#/components/parameters/PostId'
+      responses: 
+        '204':
+          description: The post has been liked
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Likes
+      summary: Unlike post
+      operationId: unlikePost
+      parameters:
+        - $ref: '#/components/parameters/PostId'
+      responses: 
+        '204':
+          description: The post has been unliked
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/posts/{postId}/comments:
+    post:
+      tags:
+        - Comments
+      summary: Comment on post
+      operationId: commentPost
+      parameters:
+        - $ref: '#/components/parameters/PostId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+              required:
+                  - text
+      responses:
+        '201':
+          description: Comment has been added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      tags:
+        - Comments
+      summary: Get post comments
+      operationId: getPostComments
+      parameters:
+        - $ref: '#/components/parameters/PostId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/DateTimeCursor'
+      responses:
+        '200':
+          description: Comments have been returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+                  nextCursor:
+                    $ref: '#/components/schemas/DateTimeCursor'
+                required: 
+                  - items
+                  - nextCursor
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/comments/{commentId}:
+    delete:
+      tags:
+        - Comments
+      summary: Delete comment
+      operationId: deleteComment
+      parameters:
+        - name: commentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Comment has been deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/users/me/following/{userId}:
+    post:
+      tags:
+        - Users
+      summary: Follow user
+      operationId: followUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204':
+          description: User has been followed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Users
+      summary: Unfollow user
+      operationId: unfollowUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204':
+          description: User has been unfollowed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/users/{userId}/posts:
+    get:
+      tags:
+        - Posts
+      summary: Get user's posts
+      operationId: getUserPosts
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/DateTimeCursor'
+      responses:
+        '200':
+          $ref: '#/components/responses/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/users/{userId}/feed:
+    get:
+      tags:
+        - Posts
+      summary: Get posts from users followed by a specific user
+      operationId: getUserFeed
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/DateTimeCursor'
+      responses:
+        '200':
+          $ref: '#/components/responses/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/users/me/feed:
+    get:
+      tags:
+        - Posts
+      summary: Get posts from users followed by the authenticated user
+      operationId: getMyFeed
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/DateTimeCursor'
+      responses:
+        '200':
+          $ref: '#/components/responses/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/users/me/posts:
+    get:
+      tags:
+        - Posts
+      summary: Get current user's posts
+      operationId: getMyPosts
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/DateTimeCursor'
+      responses:
+        '200':
+          $ref: '#/components/responses/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Posts
+      summary: Create post
+      operationId: createPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locationId:
+                  type: string
+                  format: uuid
+                description:
+                  type: string
+                photoIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+              required:
+                  - locationId
+                  - description
+      responses:
+        '201':
+          description: Post has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/users/me/posts/{postId}:
+    delete:
+      tags:
+        - Posts
+      summary: Delete post
+      operationId: deletePost
+      parameters:
+        - $ref: '#/components/parameters/PostId'
+      responses:
+        '204':
+          description: Post has been deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/locations:
+    get:
+      tags:
+        - Locations
+      summary: Get nearby locations
+      operationId: getNearbyLocations
+      parameters:
+        - name: geoPoint
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/GeoPoint'
+        - name: radius
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 10000
+          description: Radius in meters
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Nearby locations have been returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Location'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/locations/popular:
+    get:
+      tags:
+        - Locations
+      summary: Get popular locations
+      operationId: getPopularLocations
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Popular locations have been returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/locations/{locationId}/feed:
+    get:
+      tags:
+        - Posts
+      summary: Get posts related to a location
+      operationId: getLocationPosts
+      parameters:
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/DateTimeCursor'
+      responses:
+        '200':
+          $ref: '#/components/responses/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    PostId:
+      name: postId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Limit:
+      name: limit
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        maximum: 20
+        minimum: 1
+        default: 20
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+    DateTimeCursor:
+      name: cursor
+      in: query
+      schema:
+        $ref: '#/components/schemas/DateTimeCursor'
+  responses:
+    BadRequest:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Request is unauthorized
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Posts:
+      description: Posts have been returned
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+              nextCursor:
+                  $ref: '#/components/schemas/DateTimeCursor'
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        userId:
+          type: string
+          format: uuid
+        userHandle:
+          type: string
+        description:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        photoUrls:
+          type: array
+          items: 
+            type: string
+            examples: [https://s3.amazonaws.com/post-photos/some-photo]
+        likesCount:
+          type: integer
+          format: int32
+        isLiked:
+          type: boolean
+          description: Is liked by current user
+        isUserFollowed:
+          type: boolean
+          description: Is the post author followed by current user
+      required:
+        - id
+        - createdAt
+        - userId
+        - userHandle
+        - description
+        - location
+        - photoUrls
+        - likesCount
+        - isLiked
+        - isUserFollowed
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        userId:
+          type: string
+          format: uuid
+        userHandle:
+          type: string
+        text:
+          type: string
+      required:
+        - id
+        - createdAt
+        - userId
+        - userHandle
+        - text
+    GeoPoint:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          format: double
+          minimum: -180
+          maximum: 180
+      required:
+        - latitude
+        - longitude
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        geoPoint:
+          $ref: '#/components/schemas/GeoPoint'
+      required:
+        - id
+        - title
+        - geoPoint
+    IdResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
+    DateTimeCursor:
+      type: string
+      format: date-time
+      description: Cursor for paging
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security: 
+  - bearerAuth: []
