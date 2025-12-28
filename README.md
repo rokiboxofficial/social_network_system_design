@@ -122,6 +122,7 @@ Posts:
     Disks = max(1, 1, 6) ≈ 6
 
 Comments:
+
     Capacity_for_year = 147 KB/s * 86,400 * 365 ≈ 4.6 TB
     Disks_for_capacity = 4.6 TB / 8 TB ≈ 0.57
     Disks_for_throughput = (147 KB/s + 12 MB/s) / 500 MB/s ≈ 0.02
@@ -129,6 +130,7 @@ Comments:
     Disks (SSD SATA) = max(1, 1, 3) = 3
 
 Likes:
+
     Capacity_for_year = 10,417/s * 172 B (size of row in db) * 86,400 * 365 ≈ 56.5 TB
     Disks_for_capacity = 56.5 TB / 100 TB ≈ 0.56
     Disks_for_throughput = (10,417/s * 172 B) / 500 MB/s ≈ 0.01
@@ -136,6 +138,7 @@ Likes:
     Disks (SSD SATA) = max(1, 1, 11) = 11
 
 Subscribers:
+
     Capacity_for_year = 58/s * 36 B (size of row in db) * 86,400 * 365 ≈ 66 GB
     Disks_for_capacity = 66 GB / 2 TB ≈ 0.03
     Disks_for_throughput = (58/s * 36 B) / 100 MB/s ≈ 0.01
@@ -143,8 +146,8 @@ Subscribers:
     Disks = max(1, 1, 1) ≈ 1
 
 Photos:
-    Capacity_for_external_storage = 12.5 MB/s * 86,400 * 365 ≈ 394 TB (cloud storage)
 
+    Capacity_for_external_storage = 12.5 MB/s * 86,400 * 365 ≈ 394 TB (cloud storage)
     Db_capacity_for_year = 82 B (size of row in db) * 25/s * 86,400 * 365 ≈ 64.6 GB
     Disks_for_capacity = 64.6 GB / 2 TB ≈ 0.03
     Disks_for_throughput = (82 B * 25/s ) / 100 MB/s ≈ 0.01
@@ -152,6 +155,7 @@ Photos:
     Disks (SSD SATA) = max(1, 1, 1) ≈ 1
 
 Locations:
+
     Capacity = 58,500,000 (count of households in Russia) * 52 B (size of row in db) = 3 GB
     Disks_for_capacity = 3 GB / 2 TB ≈ 0.01
     Disks_for_throughput = 6.3 KB/s / 100 MB/s ≈ 0.01
