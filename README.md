@@ -161,3 +161,36 @@ Locations:
     Disks_for_throughput = 6.3 KB/s / 100 MB/s ≈ 0.01
     Disks_for_iops = 77/s / 100 ≈ 0.77
     Disks (2 TB HDD) = max(1, 1, 1) ≈ 1
+
+## Replication and sharding
+Posts:
+
+    PostgreSQL + Redis (feed), async master-slave 6-factor replication (iops-intensive load), no sharding.
+    hosts_with_replication = 6 hosts (1 disk per host)
+
+Comments:
+
+    PostgreSQL, async master-slave 3-factor replication (iops-intensive load), no sharding.
+    hosts_with_replication = 3 hosts (1 disk per host)
+
+Likes:
+
+    PostgreSQL, async master-slave 2-factor replication, key-based sharding by post_id.
+    shards = 11 / 2 = 6
+    hosts_with_replication = 6 * 2 = 12 hosts
+  
+Subscribers:
+
+    PostgreSQL, async master-slave 2-factor replication, no sharding.
+    hosts_with_replication = 2 hosts (1 disk per host)
+
+Photos (metadata stored locally; media stored in AWS-like object storage)
+
+    PostgreSQL, async master-slave 2-factor replication (iops-intensive load), key-based sharding by photo_id
+    shards = 24 / 6 = 4
+    hosts_with_replication = 4 * 2 = 8 hosts (RAID 0, 6 disks per host)
+
+Locations
+
+    Elasticsearch, 2-factor replication, no sharding. Locations are a read-only reference database.
+    hosts_with_replication = 2 hosts (1 disk per host)
