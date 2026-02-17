@@ -1,0 +1,15 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title System Context Diagram for Travelers
+
+Person(user, "User", "A user of the Travelers social network.")
+System(social_network, "Travelers", "Travelers is a social network that allows users to share their experiences and be inspired by those of others.")
+System_Ext(google_auth, "Google OAuth 2.0 & OIDC", "Google authorization and authentication service.")
+System_Ext(aws_s3, "Amazon S3", "Cloud-based object storage service.")
+
+Rel(user, social_network, "Uses")
+Rel(social_network, google_auth, "Authenticates and authorizes users")
+Rel(social_network, aws_s3, "Stores files")
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Container Diagram for Travelers
+
+Person(user, "User", "A user of the Travelers social network.")
+
+System_Boundary(c1, "Travelers") {
+    Container(apigateway_service, "API Gateway Microservice", "C#, ASP.NET", "Single entry point for client requests to backend microservices.")
+
+    Container(feed_service, "Feed Microservice", "C#, ASP.NET", "Provides user feeds.")
+    Container(posts_service, "Posts Microservice", "C#, ASP.NET", "Manages posts, locations, and photos.")
+    Container(reactions_service, "Reactions Microservice", "C#, ASP.NET", "Manages reactions to posts, such as likes, comments, and follows.")
+
+    Container(bus, "Message Bus", "Kafka", "Transport for integration events.")
+}
+
+System_Ext(google_auth, "Google OAuth 2.0 & OIDC", "Google authorization and authentication service.")
+System_Ext(aws_s3, "Amazon S3", "Cloud-based object storage service.")
+
+Rel(user, apigateway_service, "Uses")
+Rel(apigateway_service, google_auth, "Uses")
+Rel(apigateway_service, feed_service, "Retrieves feeds")
+Rel(apigateway_service, posts_service, "Retrieves and creates posts with photos and locations")
+Rel(apigateway_service, reactions_service, "Retrieves and manages reactions, comments, and follows")
+
+
+Rel(feed_service, bus, "Publishes user events and consumes celebrity and post events")
+Rel(posts_service, bus, "Publishes post events")
+Rel(posts_service, aws_s3, "Creates pre-signed URLs")
+Rel(reactions_service, bus, "Publishes follow, like, and comment events and consumes user and post events")
+
+@enduml
